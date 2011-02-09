@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">FeliCaをかざしてみてください</string>
+    <string name="app_name">FelicaEdit</string>
+    <string name="dump">システムコード検索</string>
+    <string name="end">終了</string>
+    <string name="service_list_title">サービス一覧</string>
+    <string name="EditBlockTitle">Tap to Edit Data</string>
+    <string-array name="hex">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>A</item>
+        <item>B</item>
+        <item>C</item>
+        <item>D</item>
+        <item>E</item>
+        <item>F</item>
+    </string-array>
+        <string name="save">Save</string>
+</resources>
