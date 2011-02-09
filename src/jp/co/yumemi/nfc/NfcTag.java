@@ -76,12 +76,7 @@ public class NfcTag {
      }
 
      public static NfcTag create(Intent intent) {
-         String action = intent.getAction();
-         if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action)) {
-             return create(intent.getParcelableExtra(ANDROID_NFC_EXTRA_TAG));
-         } else {
-             return new NullNfcTag(null);
-         }
+         return create(intent.getParcelableExtra(ANDROID_NFC_EXTRA_TAG));
      }
      
      public void putTagService(Intent intent) {
