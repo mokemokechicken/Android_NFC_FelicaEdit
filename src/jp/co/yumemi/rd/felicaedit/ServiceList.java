@@ -20,7 +20,7 @@ import java.util.Map;
 
 import jp.co.yumemi.nfc.FelicaTag;
 import jp.co.yumemi.nfc.NfcException;
-import jp.co.yumemi.nfc.NfcTag;
+import jp.co.yumemi.nfc.TagFactory;
 import jp.co.yumemi.nfc.FelicaTag.ServiceCode;
 import jp.co.yumemi.nfc.FelicaTag.SystemCode;
 import jp.co.yumemi.rd.misc.SimpleAlert;
@@ -51,7 +51,7 @@ public class ServiceList extends Activity implements ExpandableListView.OnChildC
         setContentView(R.layout.service);
         setTitle(R.string.service_list_title);
         Intent intent = getIntent();
-        this.felica = (FelicaTag)NfcTag.create(intent);
+        this.felica = (FelicaTag)TagFactory.create(intent);
         this.systemCode = new SystemCode(intent.getByteArrayExtra(SystemCode.class.getCanonicalName()));
         // ExpandableListView はなかなかややっこしい: see http://d.hatena.ne.jp/rudi/20100720/1279632918
         ExpandableListView listView = (ExpandableListView)findViewById(R.id.service_list);

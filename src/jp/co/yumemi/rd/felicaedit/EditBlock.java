@@ -17,7 +17,7 @@ import java.util.List;
 
 import jp.co.yumemi.nfc.FelicaTag;
 import jp.co.yumemi.nfc.NfcException;
-import jp.co.yumemi.nfc.NfcTag;
+import jp.co.yumemi.nfc.TagFactory;
 import jp.co.yumemi.nfc.FelicaTag.ServiceCode;
 import jp.co.yumemi.nfc.FelicaTag.SystemCode;
 import jp.co.yumemi.rd.misc.SimpleAlert;
@@ -56,7 +56,7 @@ public class EditBlock extends Activity implements DialogInterface.OnClickListen
         super.onCreate(savedInstanceState);
         
         Intent intent = getIntent();
-        this.felica = (FelicaTag)NfcTag.create(intent);
+        this.felica = (FelicaTag)TagFactory.create(intent);
         this.systemCode = new SystemCode(intent.getByteArrayExtra(SystemCode.class.getCanonicalName()));
         this.serviceCode = new ServiceCode(intent.getByteArrayExtra(ServiceCode.class.getCanonicalName()));
         this.blockIndex = intent.getIntExtra(BLOCK_INDEX, -1);

@@ -14,7 +14,7 @@ package jp.co.yumemi.rd.felicaedit;
 
 import jp.co.yumemi.nfc.FelicaTag;
 import jp.co.yumemi.nfc.NfcException;
-import jp.co.yumemi.nfc.NfcTag;
+import jp.co.yumemi.nfc.TagFactory;
 import jp.co.yumemi.nfc.FelicaTag.SystemCode;
 import android.app.ListActivity;
 import android.content.Intent;
@@ -37,7 +37,7 @@ public class SystemList extends ListActivity {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        felica = (FelicaTag)NfcTag.create(intent);
+        felica = (FelicaTag)TagFactory.create(intent);
         systemCodeList = null;
         try {
             systemCodeList = felica.getSystemCodeList();

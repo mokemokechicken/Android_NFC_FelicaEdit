@@ -27,93 +27,48 @@
 
 package jp.co.yumemi.nfc;
 
-import java.lang.reflect.InvocationTargetException;
-
-import jp.co.yumemi.nfc.FelicaTag.CommandPacket;
-import jp.co.yumemi.nfc.FelicaTag.CommandResponse;
-
+import jp.co.yumemi.rd.misc.Util;
 import android.content.Intent;
 import android.nfc.NfcAdapter;
+import android.nfc.Tag;
 import android.os.Parcelable;
 
 public class NfcTag {
-    private static String TAG = "NfcTag";
-    static public String ANDROID_NFC_EXTRA_TAG = "android.nfc.extra.TAG";
+    static private final String TAG = "NfcTag";
     
-    protected final Parcelable tagService;
-    public Parcelable getTagService() {
-        return tagService;
+    protected final Tag tag;
+    public Tag getTag() {
+        return tag;
     }
 
-    private byte[] idbytes;
-    
     public static final String TYPE_NULL = "NULL";
     public static final String TYPE_OTHER = "OTHER";
     public static final String TYPE_FELICA = "FeliCa";
     
-    public NfcTag(Parcelable tagService, byte[] id) {
-        this.tagService = tagService;
-        this.idbytes = id;
-    }
-
-    /**
-     * コマンドを実行します.
-     * 
-     *
-     * <pre>Android 2.3の隠しクラス(@hide)に依存しています。今後の仕様変更で使えなくなるリスクを考慮してください</pre>
-     * 
-     * @param commandPacket 実行するコマンドパケットをセットします
-     * @return CommandResponse コマンドの実行結果が戻ります 
-     * @throws NfcException コマンドの発行に失敗した場合にスローされます
-     */
-     public CommandResponse execute(CommandPacket commandPacket) throws NfcException {
-         if ( this.tagService == null ) {
-             throw new NfcException("tagService is null. no read execution");
-         }
-         
-         byte[] result = RawCommand.executeRaw(this.tagService, commandPacket.getBytes());
-         return new CommandResponse(result);
-     }
-
-     public static NfcTag create(Intent intent) {
-         return create(intent.getParcelableExtra(ANDROID_NFC_EXTRA_TAG));
-     }
-     
-     public void putTagService(Intent intent) {
-         intent.putExtra(ANDROID_NFC_EXTRA_TAG, getTagService());
-     }
-     
-     public static NfcTag create(Parcelable tag) {
-        try {
-            if (tag != null) {
-                byte[] bytes = (byte[])tag.getClass().getMethod("getId").invoke(tag);
-                if (bytes.length == 8) {
-                    return new FelicaTag(tag, bytes);
-                } else {
-                    return new NfcTag(tag, bytes);
-                }
-            }
-        } catch (SecurityException e) {
-        } catch (NoSuchMethodException e) {
-        } catch (IllegalArgumentException e) {
-        } catch (IllegalAccessException e) {
-        } catch (InvocationTargetException e) {
-        }
-        return new NullNfcTag(tag); 
+    public NfcTag(Tag tag) {
+        this.tag = tag;
     }
 
     public byte[] getId() {
-        return idbytes;
+        return tag.getId();
     }
     
+    public void putTagService(Intent intent) {
+        intent.putExtra(NfcAdapter.EXTRA_TAG, tag);
+    }
+
     public String getType() {
         return TYPE_OTHER;
+    }
+    
+    public String getTechListAsString() {
+        return Util.getHexString(tag.getTechList());
     }
 }
 
 class NullNfcTag extends NfcTag {
-    public NullNfcTag(Parcelable tagService) {
-        super(tagService, null);
+    public NullNfcTag(Tag tag) {
+        super(tag);
     }
 
     public String getType() {
